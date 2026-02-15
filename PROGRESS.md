@@ -1,0 +1,11 @@
+- Replaced all occurrences of 'ASSON' with 'NASS' across the project.
+- Added "National Association of Science Students, Yabatech Chapter" to the home page.
+- Added a 'Department' model and registered it in admin.
+- Added 'department' and 'middle_name' fields to the 'Student' model.
+- Implemented matric number uppercasing and name normalization in the Student model's save method.
+- Updated bulk student upload (CSV) to include 'middle_name' and 'department' fields.
+- Updated `verify_student` view to handle uppercase matric and `middle_name` during verification.
+- Updated `register_student` view to leverage model's save method for normalization.
+- Updated `StudentForm` to include 'department' and 'middle_name'.
+- Updated `templates/voters/verify_student.html` to accept `first_name`, `middle_name`, and `last_name`.
+- Switched to email-based verification for student registration and voting.
