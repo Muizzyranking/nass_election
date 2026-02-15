@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <div class="animate-fade-in">
+            <!-- Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-grotesk font-bold text-gray-900 mb-2">{{ title }}</h1>
+                        <p class="text-gray-600 font-inter">Fill in the candidate details below</p>
+                    </div>
+                    <a href="{% url 'admin_dashboard:candidate_management' %}" class="text-gray-600 hover:text-gray-800 font-inter transition-colors duration-200">
+                        ← Back to Candidates
+                    </a>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="mb-4 p-4 rounded-lg shadow-md animate-slide-up {% if message.tags == 'error' %}bg-red-50 border-l-4 border-red-500 text-red-700{% elif message.tags == 'success' %}bg-green-50 border-l-4 border-green-500 text-green-700{% else %}bg-blue-50 border-l-4 border-blue-500 text-blue-700{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="{{ form.matric.id_for_label }}" class="block text-sm font-medium text-gray-700 font-inter mb-2">Matric Number</label>
+                            {{ form.matric }}
+                            {% if form.matric.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ form.matric.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-medium text-gray-700 font-inter mb-2">First Name</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ form.first_name.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-medium text-gray-700 font-inter mb-2">Last Name</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ form.last_name.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.position.id_for_label }}" class="block text-sm font-medium text-gray-700 font-inter mb-2">Position</label>
+                            {{ form.position }}
+                            {% if form.position.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ form.position.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.manifesto.id_for_label }}" class="block text-sm font-medium text-gray-700 font-inter mb-2">Manifesto</label>
+                        {{ form.manifesto }}
+                        {% if form.manifesto.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ form.manifesto.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.photo.id_for_label }}" class="block text-sm font-medium text-gray-700 font-inter mb-2">Photo</label>
+                        {{ form.photo }}
+                        {% if form.photo.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ form.photo.errors.0 }}</p>
+                        {% endif %}
+                        <p class="text-sm text-gray-500 mt-1">Upload a photo for the candidate (optional)</p>
+                    </div>
+
+                    <div class="flex justify-end space-x-4">
+                        <a href="{% url 'admin_dashboard:candidate_management' %}" 
+                           class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-grotesk font-medium hover:bg-gray-50 transition-colors duration-200">
+                            Cancel
+                        </a>
+                        <button type="submit" 
+                                class="btn-animate bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-grotesk font-semibold py-3 px-6 rounded-lg shadow-md transform hover:scale-105 transition-all duration-300">
+                            {{ button_text }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

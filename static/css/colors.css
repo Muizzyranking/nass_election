@@ -1,0 +1,29 @@
+body {
+    background-color: #f8f9fa; /* white-ish */
+}
+
+.navbar-dark.bg-dark {
+    background-color: #000000 !important; /* black */
+}
+
+.btn-primary {
+    background-color: #28a745; /* green */
+    border-color: #28a745; /* green */
+}
+
+.btn-primary:hover {
+    background-color: #218838; /* darker green */
+    border-color: #1e7e34;
+}
+
+.btn-success {
+    background-color: #ffc107; /* yellow */
+    border-color: #ffc107; /* yellow */
+    color: #000;
+}
+
+.btn-success:hover {
+    background-color: #e0a800; /* darker yellow */
+    border-color: #d39e00;
+    color: #000;
+}

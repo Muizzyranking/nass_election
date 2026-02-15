@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="max-w-2xl mx-auto px-4 py-8">
+        <div class="animate-fade-in">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-grotesk font-bold text-gray-900 mb-4">Verify Your Details</h1>
+                <p class="text-gray-600 font-inter">Enter your information to check your voting eligibility</p>
+            </div>
+
+            <!-- Form -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                <form method="post" class="space-y-6">
+                    {% csrf_token %}
+                    <div>
+                        <label for="matric" class="block text-sm font-medium text-gray-700 font-inter mb-2">Matric Number</label>
+                        <input type="text" id="matric" name="matric" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 font-inter"
+                               placeholder="Enter your matric number">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 font-inter mb-2">Email Address</label>
+                        <input type="email" id="email" name="email" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 font-inter"
+                               placeholder="Enter your email address">
+                    </div>
+                    <button type="submit" 
+                            class="w-full btn-animate bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-grotesk font-semibold py-3 px-6 rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Verify Details</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Register Link -->
+            <div class="text-center mt-8">
+                <p class="text-gray-600 font-inter">
+                    Details not found? 
+                    <a href="{% url 'voters:register_student' %}" 
+                       class="text-primary-600 hover:text-primary-700 font-semibold transition-colors duration-200">
+                        Register here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="max-w-2xl mx-auto px-4 py-8">
+        <div class="animate-fade-in">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-grotesk font-bold text-gray-900 mb-2">Delete Student</h1>
+                <p class="text-gray-600 font-inter">Are you sure you want to delete this student?</p>
+            </div>
+
+            <!-- Warning Card -->
+            <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-8 mb-6">
+                <div class="flex items-center space-x-4 mb-6">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 8.5c-.77.833-.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-grotesk font-semibold text-red-800">Warning</h3>
+                        <p class="text-red-600 font-inter">This action cannot be undone</p>
+                    </div>
+                </div>
+
+                <!-- Student Info -->
+                <div class="bg-white rounded-xl p-6 border border-red-200">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                            <span class="text-lg font-grotesk font-bold text-primary-600">{{ student.first_name.0 }}{{ student.last_name.0 }}</span>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-grotesk font-semibold text-gray-900">{{ student.first_name }} {{ student.last_name }}</h4>
+                            <p class="text-sm text-gray-600 font-inter">Matric: {{ student.matric }}</p>
+                            <p class="text-sm text-gray-600 font-inter">Level: {{ student.level }}</p>
+                            <p class="text-sm text-gray-600 font-inter">Gender: {{ student.sex }}</p>
+                            <p class="text-sm text-gray-500 font-inter">Registered: {{ student.created_at|date:"M d, Y H:i" }}</p>
+                            {% if student.has_voted %}
+                                <p class="text-sm text-green-600 font-inter">Status: Has voted</p>
+                            {% else %}
+                                <p class="text-sm text-gray-500 font-inter">Status: Not voted</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end space-x-4">
+                <a href="{% url 'admin_dashboard:student_management' %}" 
+                   class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-grotesk font-medium hover:bg-gray-50 transition-colors duration-200">
+                    Cancel
+                </a>
+                <form method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" 
+                            class="btn-animate bg-red-500 hover:bg-red-600 text-white font-grotesk font-semibold py-3 px-6 rounded-lg shadow-md transform hover:scale-105 transition-all duration-300">
+                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        Delete Student
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

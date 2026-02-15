@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header Section -->
+        <div class="text-center mb-12 animate-fade-in">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-accent-500 to-accent-600 rounded-full mb-4">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-grotesk font-bold text-gray-900 mb-4">Election Results</h1>
+            <p class="text-xl text-gray-600 font-inter">
+                {% if voting_open %}
+                    Voting is currently in progress
+                {% elif show_results %}
+                    Official election results
+                {% else %}
+                    Results will be available after voting closes
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Voting Ongoing State -->
+        {% if voting_open %}
+            <div class="text-center py-16 animate-bounce-in">
+                <div class="w-24 h-24 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-12 h-12 text-primary-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-grotesk font-bold text-gray-900 mb-4">Voting in Progress</h3>
+                <p class="text-lg text-gray-600 font-inter mb-8">The election is currently ongoing. Results will be available once voting closes.</p>
+                <div class="inline-flex items-center space-x-2 bg-primary-50 px-6 py-3 rounded-full">
+                    <div class="w-3 h-3 bg-primary-500 rounded-full animate-pulse"></div>
+                    <span class="text-primary-700 font-medium font-inter">Live Voting</span>
+                </div>
+            </div>
+
+        <!-- No Results State -->
+        {% elif not show_results %}
+            <div class="text-center py-16 animate-fade-in">
+                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-grotesk font-bold text-gray-900 mb-4">No Results Available</h3>
+                <p class="text-lg text-gray-600 font-inter">Election results will be displayed here once voting is complete and votes have been cast.</p>
+            </div>
+
+        <!-- Results Display -->
+        {% else %}
+            {% for result in results %}
+                <div class="mb-12 animate-slide-up" style="animation-delay: 0.{{ forloop.counter }}s;">
+                    <!-- Position Header -->
+                    <div class="bg-gradient-to-r from-accent-600 to-accent-700 rounded-t-2xl p-6 shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl font-grotesk font-bold text-white mb-2">{{ result.position.name }}</h2>
+                                <p class="text-accent-100 font-inter">Official election results</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                <span class="text-accent-100 text-sm font-inter">Final</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Content -->
+                    <div class="bg-white rounded-b-2xl shadow-lg p-6 border border-gray-100">
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <!-- Winner Section -->
+                            <div class="space-y-6">
+                                <h3 class="text-xl font-grotesk font-semibold text-gray-900 flex items-center">
+                                    <svg class="w-6 h-6 text-secondary-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                    </svg>
+                                    Winner
+                                </h3>
+                                {% if result.winner %}
+                                    <div class="bg-gradient-to-br from-secondary-50 to-secondary-100 rounded-xl p-6 border-2 border-secondary-200 card-hover">
+                                        <div class="flex items-center space-x-6">
+                                            <div class="relative">
+                                                {% if result.winner.photo %}
+                                                    <img src="{{ result.winner.photo.url }}" alt="{{ result.winner.first_name }}" class="w-24 h-24 rounded-xl object-cover shadow-lg">
+                                                {% else %}
+                                                    <div class="w-24 h-24 bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-xl flex items-center justify-center shadow-lg">
+                                                        <span class="text-xl font-grotesk font-bold text-secondary-600">{{ result.winner.first_name.0 }}{{ result.winner.last_name.0 }}</span>
+                                                    </div>
+                                                {% endif %}
+                                                <div class="absolute -top-2 -right-2 w-8 h-8 bg-secondary-500 rounded-full flex items-center justify-center shadow-lg">
+                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="text-xl font-grotesk font-bold text-gray-900 mb-1">{{ result.winner.first_name }} {{ result.winner.last_name }}</h4>
+                                                <div class="flex items-center space-x-4 text-sm text-gray-600 font-inter">
+                                                    <span class="flex items-center">
+                                                        <svg class="w-4 h-4 mr-1 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                        </svg>
+                                                        {{ result.winner.vote_set.count }} votes
+                                                    </span>
+                                                    <span class="flex items-center">
+                                                        <svg class="w-4 h-4 mr-1 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                                        </svg>
+                                                        {% for candidate_data in result.candidates %}{% if candidate_data.candidate.id == result.winner.id %}{{ candidate_data.percentage|floatformat:1 }}%{% endif %}{% endfor %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="bg-gray-50 rounded-xl p-8 text-center">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        <p class="text-gray-500 font-inter">No winner declared yet</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Chart Section -->
+                            <div class="space-y-6">
+                                <h3 class="text-xl font-grotesk font-semibold text-gray-900 flex items-center">
+                                    <svg class="w-6 h-6 text-accent-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                                    </svg>
+                                    Vote Distribution
+                                </h3>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <canvas id="chart_{{ result.position.id }}" class="w-full" style="max-height: 300px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- All Candidates List -->
+                        <div class="mt-8 pt-8 border-t border-gray-200">
+                            <h3 class="text-lg font-grotesk font-semibold text-gray-900 mb-4">All Candidates</h3>
+                            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {% for candidate_data in result.candidates %}
+                                    <div class="bg-gray-50 rounded-lg p-4 flex items-center space-x-3 card-hover">
+                                        {% if candidate_data.candidate.photo %}
+                                            <img src="{{ candidate_data.candidate.photo.url }}" alt="{{ candidate_data.candidate.first_name }}" class="w-12 h-12 rounded-full object-cover">
+                                        {% else %}
+                                            <div class="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center">
+                                                <span class="text-sm font-grotesk font-bold text-gray-600">{{ candidate_data.candidate.first_name.0 }}{{ candidate_data.candidate.last_name.0 }}</span>
+                                            </div>
+                                        {% endif %}
+                                        <div class="flex-1">
+                                            <h4 class="font-grotesk font-medium text-gray-900">{{ candidate_data.candidate.first_name }} {{ candidate_data.candidate.last_name }}</h4>
+                                            <div class="flex items-center space-x-2 text-sm text-gray-600">
+                                                <span>{{ candidate_data.vote_count }} votes</span>
+                                                <span>•</span>
+                                                <span>{{ candidate_data.percentage|floatformat:1 }}%</span>
+                                            </div>
+                                        </div>
+                                        {% if result.winner and result.winner.id == candidate_data.candidate.id %}
+                                            <div class="w-6 h-6 bg-secondary-500 rounded-full flex items-center justify-center">
+                                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Custom colors matching our theme
+            const themeColors = [
+                'rgba(34, 197, 94, 0.8)',   // primary-500
+                'rgba(234, 179, 8, 0.8)',    // secondary-500
+                'rgba(14, 165, 233, 0.8)',   // accent-500
+                'rgba(168, 85, 247, 0.8)',   // purple
+                'rgba(251, 146, 60, 0.8)',   // orange
+                'rgba(236, 72, 153, 0.8)',   // pink
+            ];
+            
+            const borderColors = [
+                'rgba(34, 197, 94, 1)',
+                'rgba(234, 179, 8, 1)',
+                'rgba(14, 165, 233, 1)',
+                'rgba(168, 85, 247, 1)',
+                'rgba(251, 146, 60, 1)',
+                'rgba(236, 72, 153, 1)',
+            ];
+
+            {% for result in results %}
+                var ctx = document.getElementById('chart_{{ result.position.id }}').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [{% for candidate_data in result.candidates %}"{{ candidate_data.candidate.first_name }} {{ candidate_data.candidate.last_name }}",{% endfor %}],
+                        datasets: [{
+                            label: 'Votes',
+                            data: [{% for candidate_data in result.candidates %}{{ candidate_data.vote_count }},{% endfor %}],
+                            backgroundColor: themeColors.slice(0, {{ result.candidates|length }}),
+                            borderColor: borderColors.slice(0, {{ result.candidates|length }}),
+                            borderWidth: 2,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    font: {
+                                        family: 'Inter',
+                                        size: 12
+                                    },
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleFont: {
+                                    family: 'Space Grotesk',
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                bodyFont: {
+                                    family: 'Inter',
+                                    size: 12
+                                },
+                                padding: 12,
+                                cornerRadius: 8,
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        let sum = tooltipItem.dataset.data.reduce((a, b) => a + b, 0);
+                                        let percentage = (tooltipItem.raw / sum * 100).toFixed(1);
+                                        return tooltipItem.label + ': ' + tooltipItem.raw + ' votes (' + percentage + '%)';
+                                    }
+                                }
+                            }
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true,
+                            duration: 1000,
+                            easing: 'easeInOutQuart'
+                        }
+                    }
+                });
+            {% endfor %}
+        });
+    </script>
+{% endblock %}

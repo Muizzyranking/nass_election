@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="max-w-2xl mx-auto px-4 py-8">
+        <div class="animate-fade-in">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-full mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-grotesk font-bold text-gray-900 mb-4">Register Your Details</h1>
+                <p class="text-gray-600 font-inter">Create your account to participate in the election</p>
+            </div>
+
+            <!-- Form -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                <form method="post" class="space-y-6">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" 
+                            class="w-full btn-animate bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white font-grotesk font-semibold py-3 px-6 rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Register</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Back Link -->
+            <div class="text-center mt-8">
+                <a href="{% url 'voters:verify_student' %}" 
+                   class="text-gray-600 hover:text-gray-800 font-inter transition-colors duration-200">
+                    ← Back to verification
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
